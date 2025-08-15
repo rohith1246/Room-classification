@@ -1,46 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Room Classifier</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Room Classifier • Rohith Vuppula</title>
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-  <div class="container">
-    <h1>🏠 Room Classifier</h1>
-    <p class="subtitle">Upload an image to detect the type of room</p>
-    
-    <div class="upload-box">
-      <input type="file" id="imageUpload" accept="image/*" onchange="previewImage(event)">
-      <img id="preview" class="preview-image" style="display: none;" />
-      <button onclick="classifyImage()">🔍 Classify</button>
+  <header class="site-header">
+    <div class="brand">
+      <span class="logo">🏠</span>
+      <span class="title">Room Classifier</span>
+    </div>
+    <span class="powered">Powered by TensorFlow.js</span>
+  </header>
+
+  <main class="container">
+    <p class="subtitle">Upload images to detect the type of room. Drag & drop or use the file picker below.</p>
+
+    <!-- Upload / Drag area -->
+    <div id="dropZone" class="drop-zone" tabindex="0" aria-label="Drop images here">
+      <div class="drop-inner">
+        <div class="drop-icon">📷</div>
+        <div class="drop-text">Drag & Drop images here</div>
+        <div class="divider">or</div>
+        <label for="imageUpload" class="btn">Choose Images</label>
+        <input id="imageUpload" type="file" accept="image/*" multiple style="display:none"/>
+      </div>
     </div>
 
-    <div id="result" class="result-box"></div>
-    <canvas id="canvas" style="display: none;"></canvas>
-  </div>
+    <!-- Status / model load -->
+    <div id="globalStatus" class="result-box">Loading model…</div>
 
-  <footer>
+    <!-- Gallery -->
+    <div id="gallery" class="gallery" aria-live="polite"></div>
+  </main>
+
+  <footer class="site-footer">
     Created by <strong>Rohith Vuppula</strong>
   </footer>
 
-  <!-- Load TensorFlow.js -->
+  <!-- TFJS -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <!-- App -->
   <script src="script.js"></script>
-  <script>
-    function previewImage(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const preview = document.getElementById('preview');
-          preview.src = e.target.result;
-          preview.style.display = 'block';
-        }
-        reader.readAsDataURL(file);
-      }
-    }
-  </script>
 </body>
 </html>
