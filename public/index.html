@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
+  <!-- Header -->
   <header class="site-header">
     <div class="brand">
       <span class="logo">🏠</span>
@@ -15,34 +16,37 @@
     <span class="powered">Powered by TensorFlow.js</span>
   </header>
 
+  <!-- Main -->
   <main class="container">
     <p class="subtitle">Upload images to detect the type of room. Drag & drop or use the file picker below.</p>
 
-    <!-- Upload / Drag area -->
+    <!-- Drag & Drop area -->
     <div id="dropZone" class="drop-zone" tabindex="0" aria-label="Drop images here">
       <div class="drop-inner">
         <div class="drop-icon">📷</div>
         <div class="drop-text">Drag & Drop images here</div>
         <div class="divider">or</div>
+        <!-- This label triggers file input -->
         <label for="imageUpload" class="btn">Choose Images</label>
         <input id="imageUpload" type="file" accept="image/*" multiple style="display:none"/>
       </div>
     </div>
 
-    <!-- Status / model load -->
+    <!-- Global status -->
     <div id="globalStatus" class="result-box">Loading model…</div>
 
     <!-- Gallery -->
     <div id="gallery" class="gallery" aria-live="polite"></div>
   </main>
 
+  <!-- Footer -->
   <footer class="site-footer">
     Created by <strong>Rohith Vuppula</strong>
   </footer>
 
-  <!-- TFJS -->
+  <!-- TensorFlow.js -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-  <!-- App -->
+  <!-- App script -->
   <script src="script.js"></script>
 </body>
 </html>
