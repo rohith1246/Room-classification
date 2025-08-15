@@ -158,7 +158,7 @@ function initDragAndDrop(){
     e.preventDefault(); dz.classList.remove('dragover');
     handleFiles(e.dataTransfer.files);
   });
-  dz.addEventListener('click', ()=> fileInput().click());
+  
   fileInput().addEventListener('change', e => handleFiles(e.target.files));
 }
 
