@@ -2,7 +2,7 @@
 
 An **AI-powered room classification web application** that detects whether an uploaded image is a **bedroom, kitchen, bathroom, dining room, or living room** – all running directly in your browser with **TensorFlow.js**.  
 
-🔗 **Live Demo**: [Your Vercel Link]  
+🔗 **Live Demo**: [[Your Vercel Link](https://room-classification.vercel.app/)]  
 📂 **GitHub Repository**: [Your Repo Link]  
 
 ---
