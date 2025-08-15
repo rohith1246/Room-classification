@@ -2,8 +2,11 @@
 
 An **AI-powered room classification web application** that detects whether an uploaded image is a **bedroom, kitchen, bathroom, dining room, or living room** – all running directly in your browser with **TensorFlow.js**.  
 
-🔗 **Live Demo**: [[Your Vercel Link](https://room-classification.vercel.app/)]  
-📂 **GitHub Repository**: [Your Repo Link]  
+This project uses a **MobileNetV2** deep learning model (pre-trained on ImageNet and fine-tuned for 5 custom room classes).  
+It runs entirely **client-side** using TensorFlow.js, ensuring **fast performance** and **data privacy**.  
+
+🔗 **Live Demo**: [https://room-classification.vercel.app/](https://room-classification.vercel.app/)  
+📂 **GitHub Repository**: [https://github.com/rohith1246/Room-classification](https://github.com/rohith1246/Room-classification)  
 
 ---
 
@@ -22,26 +25,13 @@ An **AI-powered room classification web application** that detects whether an up
 - **Responsive UI** – Works on desktop and mobile
 - **Share & Download Results** – Easily share or save your predictions
 
----
 
-## 🖼 Demo
-
-![Room Classifier Screenshot](screenshot.png)  
-*Example: AI detecting a bedroom with 92% confidence.*
-
----
 
 ## 📦 Tech Stack
 
 - **Frontend**: HTML, CSS, JavaScript
+- **AI Model**: MobileNetV2 (fine-tuned for 5 room categories)
 - **AI Framework**: [TensorFlow.js](https://www.tensorflow.org/js)
 - **Deployment**: [Vercel](https://vercel.com/)
 
 ---
-
-## ⚙️ Installation & Setup
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/rohith1246/Room-classification.git
-   cd Room-classification
