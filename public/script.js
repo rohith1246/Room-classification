@@ -2,7 +2,6 @@
 let model;
 async function loadModel() {
   try {
-    // Relative path so it works on Vercel
     model = await tf.loadLayersModel('tfjs_model/model.json');
     console.log('Model loaded successfully');
     document.getElementById('result').innerText = 'Model loaded! Ready to classify.';
@@ -59,8 +58,14 @@ async function classifyImage() {
 
     const classNames = ['Bathroom', 'Bedroom', 'Dining', 'Kitchen', 'Livingroom'];
     const maxIndex = result.indexOf(Math.max(...result));
-    document.getElementById('result').innerText = 
-      `Predicted class: ${classNames[maxIndex]} (Confidence: ${(result[maxIndex] * 100).toFixed(2)}%)`;
+    const confidence = result[maxIndex] * 100;
+
+    if (confidence < 60) {
+      document.getElementById('result').innerText = "⚠ Please upload a room image only.";
+    } else {
+      document.getElementById('result').innerText = 
+        `Predicted class: ${classNames[maxIndex]} (Confidence: ${confidence.toFixed(2)}%)`;
+    }
 
     tensor.dispose(); // Clean up
   } catch (error) {
