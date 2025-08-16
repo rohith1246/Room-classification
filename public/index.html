@@ -4,7 +4,332 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Room Classifier • Rohith Vuppula</title>
-  <link rel="stylesheet" href="styles.css"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    /* Base + layout */
+    :root {
+      --primary: #4f46e5;
+      --secondary: #7c3aed;
+      --accent: #f59e0b;
+      --light-bg: #f8fafc;
+      --light-text: #1e293b;
+      --light-secondary: #6b7280;
+      --card-bg: #ffffff;
+      --border: #e5e7eb;
+      --ok: #2e7d32;
+      --ok-bg: #e8f5e9;
+      --warn: #c62828;
+      --warn-bg: #ffebee;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--light-bg);
+      color: var(--light-text);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .site-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+    }
+
+    .powered {
+      opacity: 0.9;
+      font-size: 0.875rem;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 0.25rem 0.5rem;
+      border-radius: 999px;
+    }
+
+    /* Main container */
+    .container {
+      width: min(1100px, 92%);
+      margin: 2rem auto;
+      background: var(--card-bg);
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Intro */
+    .subtitle {
+      margin: 0 0 1rem 0;
+      color: var(--light-secondary);
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    /* Drop zone */
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: 1rem;
+      min-height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .drop-zone:focus {
+      border-color: var(--primary);
+    }
+
+    .drop-zone.dragover {
+      background: rgba(79, 70, 229, 0.05);
+      border-color: var(--primary);
+    }
+
+    .drop-inner {
+      text-align: center;
+      padding: 1.5rem;
+    }
+
+    .drop-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+
+    .drop-text {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: var(--light-text);
+    }
+
+    .divider {
+      color: var(--light-secondary);
+      margin: 0.5rem 0;
+    }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: white;
+      cursor: pointer;
+      padding: 0.75rem 1.5rem;
+      border-radius: 999px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border: none;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(79, 70, 229, 0.3);
+    }
+
+    /* Status box */
+    .result-box {
+      margin: 1rem auto;
+      max-width: 720px;
+      font-size: 0.95rem;
+      padding: 0.75rem 1rem;
+      text-align: center;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      transition: all 0.3s ease;
+    }
+
+    .result-box.success {
+      color: var(--ok);
+      background: var(--ok-bg);
+      border-color: #a5d6a7;
+    }
+
+    .result-box.warning {
+      color: var(--warn);
+      background: var(--warn-bg);
+      border-color: #ef9a9a;
+    }
+
+    .result-box.error {
+      color: #ad1457;
+      background: #fce4ec;
+      border-color: #f48fb1;
+    }
+
+    /* Gallery grid */
+    .gallery {
+      margin-top: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.25rem;
+    }
+
+    /* Card */
+    .card {
+      position: relative;
+      overflow: hidden;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(79, 70, 229, 0.1);
+    }
+
+    .card-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+    }
+
+    .tag {
+      position: absolute;
+      left: 0.75rem;
+      top: 0.75rem;
+      background: rgba(0, 0, 0, 0.65);
+      color: white;
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.2px;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: all 0.3s ease;
+    }
+
+    .card.predicted .tag {
+      opacity: 1;
+      transform: none;
+    }
+
+    .card-body {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    /* Progress bar */
+    .progress {
+      width: 100%;
+      height: 0.5rem;
+      background: #eef2f7;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: width 0.5s ease;
+    }
+
+    /* Actions */
+    .actions {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      flex: 1 1 auto;
+      background: #f4f6f8;
+      border: 1px solid var(--border);
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .action-btn:hover {
+      background: rgba(79, 70, 229, 0.1);
+      color: var(--primary);
+    }
+
+    /* About section */
+    .about-section {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: rgba(79, 70, 229, 0.05);
+      border-radius: 1rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .about-section p {
+      margin-bottom: 1rem;
+      color: var(--light-secondary);
+    }
+
+    /* Footer */
+    .site-footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+    }
+
+    .site-footer strong {
+      font-weight: 600;
+    }
+
+    /* Mobile tweaks */
+    @media (max-width: 768px) {
+      .site-header {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+        padding: 1rem;
+      }
+
+      .container {
+        padding: 1.25rem;
+      }
+
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
   <!-- Header -->
@@ -37,6 +362,14 @@
 
     <!-- Gallery -->
     <div id="gallery" class="gallery" aria-live="polite"></div>
+
+    <!-- About Section -->
+    <div class="about-section">
+      <p>Want to know more about me just click below </p>
+      <a href="https://rohith-vuppula-portfolio.vercel.app/ " target="_blank" class="btn">
+        <i class="fas fa-external-link-alt mr-2"></i>
+      </a>
+    </div>
   </main>
 
   <!-- Footer -->
